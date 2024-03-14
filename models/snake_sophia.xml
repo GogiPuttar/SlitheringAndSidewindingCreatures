@@ -1,0 +1,130 @@
+<mujoco model="Walker">
+    <option timestep="0.01"/>
+
+    <asset>
+        <texture type="skybox" builtin="gradient" rgb1=".3 .5 .7" rgb2="0 0 0" width="512" height="512"/>
+        <texture name="body" type="cube" builtin="flat" mark="cross" width="127" height="1278"
+                 rgb1="0.8 0.6 0.4" rgb2="0.8 0.6 0.4" markrgb="1 1 1" random="0.01"/>
+        <material name="body" texture="body" texuniform="true" rgba="0.8 0.6 .4 1"/>
+        <texture name="grid" type="2d" builtin="checker" width="512" height="512" rgb1=".1 .2 .3" rgb2=".2 .3 .4"/>
+        <material name="grid" texture="grid" texrepeat="1 1" texuniform="true" reflectance=".2"/>
+
+        <!-- <geom name="body1" type="capsule" size="0.1 0.5" mass="0.1"/>
+        <geom name="body2" type="capsule" size="0.1 0.5" mass="0.1"/>
+        <geom name="body3" type="capsule" size="0.1 0.5" mass="0.1"/>
+        <geom name="body4" type="capsule" size="0.1 0.5" mass="0.1"/> -->
+    </asset>
+
+    <default>
+        <motor ctrlrange="-1 1" ctrllimited="true"/>
+        <!-- <default class="body">
+          <geom type="capsule" condim="1" friction=".7" solimp=".9 .99 .003" solref=".015 1" material="body"/>
+          <joint type="hinge" damping=".2" stiffness="1" armature=".01" limited="true" solimplimit="0 .99 .01"/>
+        </default> -->
+        <default class="body">
+            <geom type="capsule" condim="6" friction=".7" solimp=".9 .99 .003" solref=".015 1" material="body"/>
+            <joint type="hinge" damping=".2" stiffness="1" armature=".01" limited="true" solimplimit="0 .99 .01"/>
+          </default>
+    </default>
+
+    <visual>
+        <map force="0.1" zfar="30"/>
+        <rgba haze="0.9 0.9 0.15 1"/>
+        <quality shadowsize="4096"/>
+        <global offwidth="800" offheight="800"/>
+    </visual>
+
+    <worldbody>
+        <geom name="floor" size="0 0 .05" type="plane" material="grid" condim="3"/>
+        <light name="spotlight" mode="targetbodycom" target="head"
+            diffuse=".8 .8 .8" specular="0.3 0.3 0.3" pos="0 -20 4" cutoff="10"/>
+        <!-- <body name="torso" pos="0 0 1.5" childclass="body">
+            <light name="top" pos="0 0 2" mode="trackcom"/>
+            <camera name="back" pos="-3 0 1" xyaxes="0 -1 0 1 0 2" mode="trackcom"/>
+            <camera name="side" pos="0 -3 1" xyaxes="1 0 0 0 1 2" mode="trackcom"/>
+            <freejoint name="root"/>
+            <geom name="torso" fromto="0 -.03 0 0 .03 0" size=".06"/>
+            <body name="leg1" pos="0.06 0 0 ">
+                <geom name="leg1" fromto="0 0 0 0.2 0 0" size=".02"/>
+                <joint name="leg1_hinge" pos="0 0 0" axis="0 1 0" range="-75 30"/>
+            </body>
+            <body name="leg2" pos="-0.06 0 0 ">
+                <geom name="leg2" fromto="0 0 0 -0.2 0 0" size=".02"/>
+                <joint name="leg2_hinge" pos="0 0 0" axis="0 1 0" range="-30 75"/>
+            </body>
+            <body name="finlink" pos="0 -0.06 0 ">
+                <geom name="finlink" fromto="0 0 0 0 -0.15 0" size=".03"/>
+                <joint name="finhinge" pos="0 0 0" axis="1 0 0" range="-30 75"/>
+                <body name="tail" pos="0 -0.165 0 ">
+                    <geom name="tail" fromto="-0.06 0 0 0.06 0 0" size=".015"/>
+                </body>
+            </body>
+        </body> -->
+
+        <body name="head" pos="0 0 0.5" childclass="body">
+            <light name="top" pos="0 0 2" mode="trackcom"/>
+            <camera name="back" pos="-3 0 1" xyaxes="0 -1 0 1 0 2" mode="trackcom"/>
+            <camera name="side" pos="0 -3 1" xyaxes="1 0 0 0 1 2" mode="trackcom"/>
+            <freejoint name="root"/>
+            <geom name="head" fromto="0 0 0 0.1 0 0" size=".06"/>
+
+            <body name="leg1" pos="0.1 0 0 ">
+                <geom name="leg1" fromto="0 0 0 0.1 0 0" size=".05"/>
+                <joint name="leg1_hinge" pos="0 0 0" axis="0 1 0" range="-45 45"/>
+
+                <body name="leg2" pos="0.1 0 0 ">
+                    <geom name="leg2" fromto="0 0 0 0.1 0 0" size=".05"/>
+                    <joint name="leg2_hinge" pos="0 0 0" axis="0 1 0" range="-45 45"/>
+
+                    <body name="finlink" pos="0.1 0 0 ">
+                        <geom name="finlink" fromto="0 0 0 0.1 0 0" size=".05"/>
+                        <joint name="finhinge" pos="0 0 0" axis="0 1 0" range="-45 45"/>
+
+                        <body name="tail" pos="0.1 0 0 ">
+                            <geom name="tail" fromto="0 0 0 0.15 0 0" size=".035"/>
+                            <joint name="tailhinge" pos="0 0 0" axis="0 1 0" range="-45 45"/>
+                        </body>
+
+                    </body>
+                </body>
+            </body>
+        </body>
+
+        <!-- <body name="snake_body1" pos="0 0 0">
+            <light name="top" pos="0 0 2" mode="trackcom"/>
+            <camera name="back" pos="-3 0 1" xyaxes="0 -1 0 1 0 2" mode="trackcom"/>
+            <camera name="side" pos="0 -3 1" xyaxes="1 0 0 0 1 2" mode="trackcom"/>
+            <freejoint name="root"/>
+            <geom conaffinity="1" condim="3" name="body1" type="capsule" size="0.1 0.5" rgba="1 0 0 1"/>
+            <joint axis="1 0 0" name="joint1" pos="0 0 0" type="hinge"/>
+            
+            <body name="snake_body2" pos="0 0 0">
+                <geom conaffinity="1" condim="3" name="body2" type="capsule" size="0.1 0.5" rgba="0 1 0 1"/>
+                <joint axis="1 0 0" name="joint2" pos="0 0 0" type="hinge"/>
+                
+                <body name="snake_body3" pos="0 0 0">
+                    <geom conaffinity="1" condim="3" name="body3" type="capsule" size="0.1 0.5" rgba="0 0 1 1"/>
+                    <joint axis="1 0 0" name="joint3" pos="0 0 0" type="hinge"/>
+                    
+                    <body name="snake_body4" pos="0 0 0">
+                        <geom conaffinity="1" condim="3" name="body4" type="capsule" size="0.1 0.5" rgba="1 1 0 1"/>
+                        <joint axis="1 0 0" name="joint4" pos="0 0 0" type="hinge"/>
+                    </body>
+                </body>
+            </body>
+        </body> -->
+    </worldbody>
+
+    <actuator>
+        <motor name="leg1_hinge"  gear="40"  joint="leg1_hinge"/>
+        <motor name="leg2_hinge"  gear="40"  joint="leg2_hinge"/>
+        <motor name="finhinge"  gear="40"  joint="finhinge"/>
+        <motor name="tailhinge"  gear="40"  joint="tailhinge"/>
+        <!-- <motor name="joint1"  gear="40"  joint="joint1"/>
+        <motor name="joint2"  gear="40"  joint="joint2"/>
+        <motor name="joint3"  gear="15"  joint="joint3"/>
+        <motor name="joint4"  gear="15"  joint="joint4"/> -->
+    </actuator>
+
+
+</mujoco>

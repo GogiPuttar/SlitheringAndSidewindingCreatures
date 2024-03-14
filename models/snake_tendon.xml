@@ -1,0 +1,32 @@
+<?xml version="1.0" ?>
+<mujoco model="snake_robot">
+    <compiler angle="radian" coordinate="local" inertiafromgeom="true"/>
+
+    <option timestep="0.01" integrator="RK4" gravity="0 0 -9.81"/>
+
+    <size njmax="500" nconmax="1000" nstack="300000"/>
+
+    <default>
+        <joint armature="0" damping="1" limited="true"/>
+        <geom friction="1 0.1 0.1" condim="3"/>
+        <motor ctrllimited="true"/>
+    </default>
+
+    <body name="body0" pos="0 0 0">
+        <joint name="joint0" type="free"/>
+        <geom name="geom0" type="capsule" size="0.05" fromto="0 0 0 0 0 0.2"/>
+        <geom name="geom1" type="capsule" size="0.05" fromto="0 0 0.2 0 0 0.4"/>
+        <!-- <motor name="motor0" joint="joint0" ctrlrange="-1 1"/> -->
+    </body>
+
+    <body name="body1" pos="0 0 0.4">
+        <joint name="joint1" type="hinge" axis="0 1 0"/>
+        <geom name="geom2" type="capsule" size="0.05" fromto="0 0 0 0 0 0.2"/>
+        <!-- <motor name="motor1" joint="joint1" ctrlrange="-1 1"/> -->
+        <!-- <tendon name="tendon0" connector="body0:joint0 body1:joint1"/> -->
+    </body>
+
+    <!-- Additional bodies, joints, motors, and tendons for the remaining segments -->
+    <!-- Repeat the pattern for the desired number of segments -->
+
+</mujoco>
